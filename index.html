@@ -1,0 +1,104 @@
+<!--
+	DESARROLLADOR: JUAN CARLOS PANIAGUA
+	VERSION: 0001
+	FECHA: DAY MONTH 2019
+	
+	PAGINA DE :DESCRIPCION
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="author" content="Juan C. Paniagua R.">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="shortcut icon" href="imgs/rubik.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="imgs/rubik.png" type="image/x-icon">
+    <title>game world</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/index.css">
+    <script src=""></script>
+</head>
+
+<body>
+
+    <header>
+       <img src="imgs/logot.png" width="100px" alt="Logo" onclick="location.href='../'"><br>
+        <font color='red'>Welcome to</font>
+        <h1>The Game's World</h1>
+    </header>
+    <hr>
+    <div class="main">
+
+        <div class="play">
+            <img src="imgs/colorswitch.png" alt="icono">
+            <a href="views/switchcolor.html">Switch Color</a>
+        </div>
+        <div class="play">
+            <img src="imgs/tic-tac-toe.png" alt="icono">
+            <a href="views/tictactoe.html">Tic Tac Toe</a>
+        </div>
+        <div class="play">
+            <img src="imgs/tetris.png" alt="icono">
+            <a href="views/tetris.html">Tetris</a>
+        </div>
+        <div class="play">
+            <img src="imgs/alzheimer.png" alt="icono">
+            <a href="views/watersort.html">Water Puzzle</a>
+        </div>
+
+        <div class="play">
+            <img src="imgs/memory.png" alt="icono">
+            <a href="views/memory.html">Memory</a>
+        </div>
+        <div class="play">
+            <img src="imgs/light.png" alt="icono">
+            <a href="views/turnon.html">Turn On</a>
+        </div>
+        <div class="play">
+            <img src="imgs/target.png" alt="icono">
+            <a href="views/archery.html">Archery</a>
+        </div>
+        <div class="play">
+            <img src="imgs/meteor.png" alt="icono">
+            <a href="views/meteoros.html">Meteoros</a>
+        </div>
+        <div class="play">
+            <img src="imgs/click.png" alt="icono">
+            <a href="views/catchthem.html">Catch Them</a>
+        </div>
+
+        <div class="play">
+            <img src="imgs/ping-pong.png" alt="icono">
+            <a href="views/tenis.html">Tenis</a>
+        </div>
+
+        <div class="play">
+            <img src="imgs/lets-go.png" alt="icono">
+            <a href="views/goacross.html">Let's Go</a>
+        </div>
+
+        <div class="play">
+            <img src="imgs/snake.png" alt="icono">
+            <a href="views/snake.html">Snake</a>
+        </div>
+        <div class="play">
+            <img src="imgs/game-boy.png" alt="icono">
+            <a href="views/mage.html">Mage Game</a>
+        </div>
+
+    </div>
+
+    <script>
+        $('.play').click(function() {
+            let txt = $(this).find('a');
+            window.location = txt.attr("href");
+        });
+
+    </script>
+</body>
+
+</html>

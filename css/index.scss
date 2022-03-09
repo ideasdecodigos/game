@@ -1,0 +1,33 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+ background: url('../imgs/rubik.png') center no-repeat fixed;
+}
+
+header {
+    text-align: center;
+    padding: 50px 10px;
+}
+
+.main {
+    text-align: center; 
+    .play { background: rgba(255,255,255,0.8);
+        box-shadow: 2px 2px 5px gray;
+        padding: 10px;
+        display: inline-grid;
+        margin: 10px; 
+        cursor: pointer;
+
+        img {
+            height: 50px;
+            margin: auto;
+        }
+
+        a { 
+            text-decoration: none;
+        }
+    }
+}

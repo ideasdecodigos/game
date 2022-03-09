@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="author" content="Juan C. Paniagua R.">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="shortcut icon" href="../imgs/memory.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../imgs/memory.png" type="image/x-icon">
+    <title>Memory</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../imgs/icons/styles.css">
+    <link rel="stylesheet" href="../css/memory.css">
+
+</head>
+
+<body>
+    <div class="carbon tabbar">
+
+        <div>
+            <h4>
+                <span>moves:</span>
+                <span class="counter"> 0 </span>,
+                <span>time_elapsed:</span>
+                <span class="time">00:00</span> 
+            </h4>
+            <button onclick="startGame()">START</button>
+            <button onclick="location.href='../index.html';">EXIT</button>
+        </div>
+
+    </div>
+    <!-- <p>by Roektman.com</p> -->
+   
+    <!-- style was inspired by CARBON => https://www.carbon.now.sh -->
+    <div class="carbon">
+        <div class="panel">
+            <div class="panel__one circle"></div>
+            <div class="panel__two circle"></div>
+            <div class="panel__three circle">
+                <!--<input type="checkbox" class="toggler3"> -->
+            </div>
+        </div>
+        <!-- end of panel -->
+        <div class="container">
+
+            <div class="box box1">
+                <div class="box backside">
+                    <i class="icon-facebook"></i>
+                </div>
+            </div>
+
+            <div class="box box2">
+                <div class="box backside">
+                    <i class="icon-facebook"></i>
+                </div>
+            </div>
+
+            <div class="box box3">
+                <div class="box backside">
+                    <i class="icon-twitter"></i>
+                </div>
+            </div>
+
+            <div class="box box4">
+                <div class="box backside">
+                    <i class="icon-twitter"></i>
+                </div>
+            </div>
+
+            <div class="box box5">
+                <div class="box backside">
+                    <i class="icon-whatsapp"></i>
+                </div>
+            </div>
+
+            <div class="box box6">
+                <div class="box backside">
+                    <i class="icon-whatsapp"></i>
+                </div>
+            </div>
+
+            <div class="box box7">
+                <div class="box backside">
+                    <i class="icon-linkedin"></i>
+                </div>
+            </div>
+
+            <div class="box box8">
+                <div class="box backside">
+                    <i class="icon-linkedin"></i>
+                </div>
+            </div>
+
+            <div class="box box9">
+                <div class="box backside">
+                    <i class="icon-vimeo"></i>
+                </div>
+            </div>
+
+            <div class="box box10">
+                <div class="box backside">
+                    <i class="icon-vimeo"></i>
+                </div>
+            </div>
+
+            <div class="box box11">
+                <div class="box backside">
+                    <i class="icon-tumblr"></i>
+                </div>
+            </div>
+
+            <div class="box box12">
+                <div class="box backside">
+                    <i class="icon-tumblr"></i>
+                </div>
+            </div>
+
+            <div class="box box13">
+                <div class="box backside">
+                    <i class="icon-pinterest"></i>
+                </div>
+            </div>
+
+            <div class="box box14">
+                <div class="box backside">
+                    <i class="icon-pinterest"></i>
+                </div>
+            </div>
+
+            <div class="box box15">
+                <div class="box backside">
+                    <i class="icon-snapchat"></i>
+                </div>
+            </div>
+
+            <div class="box box16">
+                <div class="box backside">
+                    <i class="icon-snapchat"></i>
+                </div>
+            </div>
+
+            <div class="box box17">
+                <div class="box backside">
+                    <i class="icon-flickr"></i>
+                </div>
+            </div>
+
+            <div class="box box18">
+                <div class="box backside">
+                    <i class="icon-flickr"></i>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- end of MAIN   -->
+   
+
+    <script>
+        'use strict';
+
+        const cards = {
+            box1: 'box2',
+            box2: 'box1',
+            box3: 'box4',
+            box4: 'box3',
+            box5: 'box6',
+            box6: 'box5',
+            box7: 'box8',
+            box8: 'box7',
+            box9: 'box10',
+            box10: 'box9',
+            box11: 'box12',
+            box12: 'box11',
+            box13: 'box14',
+            box14: 'box13',
+            box15: 'box16',
+            box16: 'box15',
+            box17: 'box18',
+            box18: 'box17'
+        };
+
+        //CARBON == MAIN PANEL !
+        const carbon = document.querySelector('.carbon');
+        const time = document.querySelector('.time');
+        const counter = document.querySelector('.counter');
+        const circle1 = document.querySelector('.panel__one');
+        const circle2 = document.querySelector('.panel__two');
+        const circle3 = document.querySelector('.panel__three');
+        const container = document.querySelector('.container');
+        const box = Array.from(document.querySelectorAll('.box'));
+        const audio = new Audio('../music/risa.mp3');
+
+        let correct_flips = 0;
+        let last_flipped = [];
+        let moves = 0;
+        let seconds = 0;
+        let minutes = 0;
+        let seconds_str = '';
+        let minutes_str = '';
+        let timer_observer;
+
+        container.innerHTML = '';
+
+        function flipOnClick(e) {
+            moves++;
+            counter.innerHTML = moves;
+            const element = e.target;
+            last_flipped.push(element);
+            element.classList.add('flipped');
+            // console.log(last_flipped.length);
+            compareFlipped(last_flipped);
+        }
+
+        function compareFlipped(array) {
+            if (array.length > 2) {
+                array.forEach(el => el.classList.remove('flipped'));
+                last_flipped = [];
+            }
+            if (array.length == 2) {
+                const card1 = array[0].classList[1];
+                const card2 = array[1].classList[1];
+                // console.log(cards[card1], cards[card2]);
+                if (cards[card1] == card2 || cards[card2] == card1) {
+                    // console.log('Yay its a match');
+                    const c1 = document
+                        .getElementsByClassName(card1)[0]
+                        .firstElementChild.classList.add('matchingcards');
+                    const c2 = document
+                        .getElementsByClassName(card2)[0]
+                        .firstElementChild.classList.add('matchingcards');
+                    correct_flips += 1;
+                    last_flipped = [];
+                } else {
+                    setTimeout(() => {
+                        array.forEach(el => el.classList.remove('flipped'));
+                        last_flipped = [];
+                    }, 700);
+                }
+            }
+        }
+
+        function spreadCards(array) {
+            let new_Arr = array.filter(el => array.indexOf(el) % 2 == 0);
+            while (0 < new_Arr.length) {
+                const num = Math.floor(Math.random() * new_Arr.length);
+                const pick = new_Arr[num];
+                container.appendChild(pick);
+                // console.log(container);
+                new_Arr.splice(num, 1);
+            }
+        }
+
+        function startWatching(seconds, minutes) {
+            timer_observer = setInterval(() => {
+                seconds > 58 ? ((minutes += 1), (seconds = 0)) : (seconds += 1);
+                seconds_str = seconds > 9 ? `${seconds}` : `0${seconds}`;
+                minutes_str = minutes > 9 ? `${minutes}` : `0${minutes}`;
+                time.innerHTML = `${minutes_str}:${seconds_str}`;
+                if (correct_flips >= 9) {
+                    audio.play();
+                    clearInterval(timer_observer);
+                    gameWonParty(moves);
+                    return;
+                }
+                // console.log(minutes, seconds_str);
+            }, 1000);
+        }
+
+        function startGame() {
+            correct_flips = 0;
+            last_flipped = [];
+            moves = 0;
+            seconds = 0;
+            minutes = 0;
+            seconds_str = '';
+            minutes_str = '';
+            time.innerHTML = 'XX:XX';
+            counter.innerHTML = '0';
+            container.innerHTML = '';
+            box.forEach(el => el.classList.remove('flipped'));
+            clearInterval(timer_observer);
+            spreadCards(box);
+            container.childNodes.forEach(node =>
+                node.firstElementChild.classList.remove('matchingcards')
+            );
+            startWatching(seconds, minutes);
+        }
+
+        function gameWonParty(moves) {
+            // const audio = new Audio('https://loudlinks.rocks/sounds/mp3/magic.mp3');
+            audio.play();
+            // alert(`You Won with just ${moves} moves !`);
+            //NOTE: make a fancy celebration with canvas
+        }
+
+        box.forEach(el => el.addEventListener('click', flipOnClick));
+
+        circle1.addEventListener('click', (e) => {
+            clearInterval(timer_observer);
+            container.innerHTML = '';
+            time.innerHTML = 'XX:XX';
+            counter.innerHTML = '0';
+        });
+
+        circle2.addEventListener('click', (e) => {
+            carbon.style.height = '85%';
+            carbon.style.width = '65%';
+        });
+        //green circle
+        circle3.addEventListener('click', (e) => {
+            carbon.style.height = '90%';
+            carbon.style.width = '90%';
+        });
+
+    </script>
+</body>

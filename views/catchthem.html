@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="author" content="Juan C. Paniagua R.">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="shortcut icon" href="../imgs/click.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../imgs/click.png" type="image/x-icon">
+    <title>Catch them</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <style>
+        body {}
+
+        * {
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        canvas {
+            background: #040015;
+            opacity: 0;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            outline: none;
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+            /* mobile webkit */
+        }
+
+        canvas.show {
+            animation: helloWorld .5s ease-in 1;
+            animation-fill-mode: forwards;
+            transform-origin: top;
+            opacity: 1;
+        }
+
+        body {
+            overflow: hidden;
+            font-family: Arial, Helvetica, sans-serif;
+            text-transform: uppercase;
+            perspective: 500px;
+            perspective-origin: top;
+        }
+
+        body>div {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            background: #555;
+            padding: 10px 0;
+            text-align: center;
+            color: #fff;
+            font-size: 20px;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body>div>span {
+            margin-left: 10px;
+        }
+
+        body button {
+            border: 0;
+            background: #555;
+            text-transform: uppercase;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 16px;
+            color: #fff;
+            box-shadow: inset 0px 0px 0px 2px #fff;
+            padding: 5px 10px;
+        }
+
+        body button:focus {
+            outline: 0;
+        }
+
+        body button:hover {
+            outline: 0;
+            transform: translateY(-10%);
+        }
+
+        .leaderboards {}
+
+        .leaderboards__list {}
+
+        @keyframes helloWorld {
+            0% {
+                transform: rotateX(-90deg);
+            }
+
+            100% {
+                transform: rotateX(0deg);
+            }
+        }
+
+        .overlay {
+            background: url(./bg.jpg);
+            -webkit-background-size: cover;
+            background-size: cover;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 101;
+            width: 100%;
+            height: 100%;
+            z-index: 200;
+            pointer-events: all;
+        }
+
+        .overlay.hidden {
+            opacity: 0;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .leaderboard {
+            max-width: 600px;
+            width: inherit;
+            max-height: 300px;
+            max-height: 60vh;
+            overflow: scroll;
+        }
+
+        .leaderboard__your-score {
+            width: 100%;
+            background: #fff;
+            padding: 20px;
+            font-size: 18px;
+            color: #000;
+            margin-bottom: 20px;
+        }
+
+        .leaderboard_list {
+            width: 100%;
+            background: #fff;
+            padding: 20px;
+            color: #000;
+            table-layout: fixed;
+        }
+
+        td {
+            word-break: break-all;
+        }
+
+        tr {
+            margin-bottom: 10px;
+        }
+
+        tr:nth-child(odd) {
+            background: #eee;
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+    <div>
+        <button id="startButton"> Start </button>
+        <button id="pauseButton"> Pause </button>
+        <button id="stopButton"> Stop </button>
+        <button onclick="location.href='../index.html';"> Exit </button>
+        <span> Score: <span id="score"> 0 </span> </span>
+        <span> Lives: <span id="lives"> 5 </span> </span>
+    </div>
+    <canvas id="canvas"></canvas>
+ 
+    <div id="overlay" class="overlay hidden">
+        <div class="leaderboard">
+            <button id="closeLeaderBoard">Close</button>
+            <div class="leaderboard__your-score">
+                <div style="line-height: 2">Your score is <span id="yourScore" style="color:yellow; background: #000; 
+          padding:5px">20</span>!!<br> Good job bro but You can do it better)
+                    <input type="text" placeholder="Enter your name..max 20.." id="nameInput">
+                    <button id="submitScore">Submit</button>
+                    <div class="error"></div>
+                </div>
+            </div>
+            <table class="leaderboard_list" id="leaderBoards">
+            </table>
+        </div>
+    </div>
+    <script>
+        function Game(a, b, c, d) {
+            var e = this;
+            this.canvas = document.getElementById(a || "canvas"), this.ctx = this.canvas.getContext("2d"), this.$startButton = document.getElementById(b || "startButton"), this.$stopButton = document.getElementById(c || "stopButton"), this.$pauseButton = document.getElementById(d || "pauseButton"), this.$scoreOutput = document.getElementById("score"), this.$livesOutput = document.getElementById("lives"), this.$overlay = document.getElementById("overlay"), this.$finalScoreOutput = document.getElementById("yourScore"), this.$scoreTable = document.getElementById("leaderBoards"), this.$submitScore = document.getElementById("submitScore"), this.$closeLeaderBoard = document.getElementById("closeLeaderBoard"), this.$nameInput = document.getElementById("nameInput"), this.calculateCnavasSize = function() {
+                this.canvas.width = window.innerWidth, this.canvas.height = window.innerHeight, e.canvasWidth = this.canvas.clientWidth, e.canvasHeight = this.canvas.clientHeight, window.addEventListener("resize", function() {
+                    e.canvas.width = window.innerWidth, e.canvas.height = window.innerHeight, e.canvasWidth = this.canvas.clientWidth, e.canvasHeight = this.canvas.clientHeight
+                })
+            }(), this.$startButton.addEventListener("click", function() {
+                return 1 === e.gameState.isPlaying && e.gameState.isPaused !== !0 ? void alert("game is already in process, press stop and start to restart game") : (e.$startButton.innerText = "Start", e.gameState.isPlaying = 1, window.clickCallback = e.gameFunctions.checkSquareIsClicked, e.helpFunctions.listenClick(e.canvas, e.helpFunctions.handleClick), e.canvas.classList.add("show"), e.gameFunctions.generateSquares(), e.gameState.isPaused === !0 && (e.gameState.isPaused = !1), e.$startButton.innerText = "Start", void console.log(e.gameState))
+            }), this.$closeLeaderBoard.addEventListener("click", function() {
+                e.helpFunctions.hideLeaderBoard()
+            }), this.$pauseButton.addEventListener("click", function() {
+                0 != e.gameState.isPlaying && (e.helpFunctions.removeClick(e.canvas, e.helpFunctions.handleClick), e.gameState.isPaused = !0, e.$startButton.innerText = "Continue", console.log(e.gameState))
+            }), this.stopGame = function() {
+                e.gameState.isPlaying = 0, e.helpFunctions.removeClick(e.canvas, e.helpFunctions.handleClick), e.$startButton.innerText = "Start", e.gameFunctions.resetGame(), e.canvas.classList.remove("show")
+            }, this.$stopButton.addEventListener("click", e.stopGame), this.leadersScore = {}, this.gameSettingsDefault = {
+                maxSquares: 5,
+                maxFallDownSpeed: 1,
+                maxSquareYOffset: 10,
+                scoreMultiplier: 1,
+                squareSize: 100,
+                lives: 5
+            }, this.gameSettings = {
+                maxSquares: this.gameSettingsDefault.maxSquares,
+                maxFallDownSpeed: this.gameSettingsDefault.maxFallDownSpeed,
+                maxSquareYOffset: this.gameSettingsDefault.maxSquareYOffset,
+                scoreMultiplier: this.gameSettingsDefault.scoreMultiplier,
+                squareSize: this.gameSettingsDefault.squareSize
+            }, this.gameState = {
+                isPlaying: 0,
+                score: 0,
+                lives: 5,
+                isPaused: !1,
+                finalScore: 0
+            }, this.gameStorage = {
+                squares: []
+            }, this.objects = {
+                Square: function(a, b, c, d, f) {
+                    this.w = c || e.gameSettings.squareSize || 100, this.h = d || e.gameSettings.squareSize || 100, this.startY = -(Math.floor(Math.random() * (this.h * e.gameSettings.maxSquareYOffset - 20)) + 20), this.y = b || this.startY || this.h, this.fallDownSpeed = parseFloat((Math.random() * (e.gameSettings.maxFallDownSpeed - 1)).toFixed(0)) + 1, this.color = f || e.gameFunctions.generateRandomColor(), this.fallDown = function() {
+                        this.y += this.fallDownSpeed
+                    }, this.calcluateStartX = function() {
+                        return Math.floor(Math.random() * (e.canvasWidth - this.w)) + 0
+                    }, this.x = a || this.calcluateStartX(), this.respawnSquare = function() {
+                        this.color = e.gameFunctions.generateRandomColor(), this.startY = -(Math.floor(Math.random() * (this.h * e.gameSettings.maxSquareYOffset - 20)) + 20), this.y = this.startY, this.x = this.calcluateStartX(), this.w = e.gameSettings.squareSize, this.h = e.gameSettings.squareSize, this.fallDownSpeed = this.calculareRandomFallDownSpeed(), console.log("square is respawned", "new y is" + this.y), console.log("square is respawned", "new x is" + this.x), console.log("new color is" + this.color)
+                    }, this.calculareRandomFallDownSpeed = function() {
+                        return parseFloat((Math.random() * (e.gameSettings.maxFallDownSpeed - 1)).toFixed(0)) + 1
+                    }, this.checkOutOfScreen = function() {
+                        return this.y >= e.canvasHeight && (e.gameFunctions.renderLives(-1), e.gameFunctions.checkIsAlive(), console.log("square is out of the screen", this), this.respawnSquare(), void 0)
+                    }
+                }
+            }, this.gameFunctions = {
+                clearWindow: function() {
+                    e.ctx.clearRect(0, 0, e.canvasWidth, e.canvasHeight)
+                },
+                increaseScore: function(a) {
+                    e.gameState.score += a || 1 * e.gameSettings.scoreMultiplier, e.$scoreOutput.innerText = e.gameState.score
+                },
+                renderLives: function(a) {
+                    var a = a || e.gameSettingsDefault.lives;
+                    e.gameState.lives += a, e.$livesOutput.innerText = e.gameState.lives
+                },
+                checkIsAlive: function() {
+                    e.gameState.lives <= 0 && (e.$submitScore.addEventListener("click", function() {
+                        e.netFunctions.sendUserScore()
+                    }), e.helpFunctions.showLeaderBoard(), e.netFunctions.getUserScore(), e.stopGame())
+                },
+                renderSquares: function(a) {
+                    if (e.gameState.isPaused !== !0 && 0 != e.gameState.isPlaying)
+                        for (var b = 0; b < a.length; b++) e.ctx.fillStyle = a[b].color, e.ctx.fillRect(a[b].x, a[b].y, a[b].w, a[b].h), a[b].checkOutOfScreen(), a[b].fallDown()
+                },
+                generateSquares: function() {
+                    for (var a = 0; a < e.gameSettings.maxSquares; a++) {
+                        var b = e.gameFunctions.createSquare(null, null, null, null, null);
+                        e.gameStorage.squares.push(b), console.log("new square", b, "is created and stored in squares array")
+                    }
+                    console.log(e.gameStorage.squares)
+                },
+                createSquare: function(a, b, c, d, f) {
+                    return new e.objects.Square(a, b, c, d, f)
+                },
+                generateRandomColor: function() {
+                    return "rgb(" + parseFloat((255 * Math.random()).toFixed(0)) + "," + parseFloat((255 * Math.random()).toFixed(0)) + "," + parseFloat((255 * Math.random()).toFixed(0)) + ")"
+                },
+                resetGame: function() {
+                    e.gameStorage.squares = [], e.gameState.score = 0, e.gameState.lives = 0, e.gameFunctions.renderLives(), e.$scoreOutput.innerText = e.gameState.score;
+                    for (key in e.gameSettings) e.gameSettings[key] = e.gameSettingsDefault[key]
+                },
+                checkSquareIsClicked: function(a) {
+                    var b, c;
+                    a.touches ? (b = event.targetTouches[0].pageX, c = event.targetTouches[0].pageY) : (b = a.clientX, c = a.clientY);
+                    for (var f = 0; f < e.gameStorage.squares.length; f++) {
+                        var g = e.gameStorage.squares[f].x,
+                            h = e.gameStorage.squares[f].y,
+                            i = e.gameStorage.squares[f].w,
+                            j = e.gameStorage.squares[f].h;
+                        b >= g && b <= g + i && c >= h && c <= h + j && (e.gameStorage.squares[f].respawnSquare(), e.gameFunctions.increaseScore(), console.log("you clicked!"), e.gameFunctions.gameAdmin())
+                    }
+                },
+                gameAdmin: function() {
+                    return e.gameFunctions.checkIsAlive() === !1 ? (alert("game over"), e.gameState.isPlaying = 0, e.helpFunctions.removeClick(e.canvas, e.helpFunctions.handleClick), e.gameState.isPlaying = 0, e.$startButton.innerText = "Start", e.gameFunctions.resetGame(), void e.canvas.classList.remove("show")) : (e.gameSettings.maxFallDownSpeed = 1 * e.gameState.score / 5, e.gameSettings.squareSize = e.gameSettingsDefault.squareSize - Math.floor(1 * e.gameState.score), void console.log(e.gameSettings.squareSize))
+                }
+            }, this.helpFunctions = {
+                listenClick: function(a, b) {
+                    var c = !1;
+                    "ontouchstart" in window ? c = !0 : window.navigator.msPointerEnabled && (c = !0), c ? (alert("touch"), a.addEventListener("touchstart", b, !1)) : a.addEventListener("click", b, !1)
+                },
+                removeClick: function(a, b) {
+                    var c = !1;
+                    "ontouchstart" in window ? c = !0 : window.navigator.msPointerEnabled && (c = !0), c ? a.removeEventListener("touchstart", b, !1) : a.removeEventListener("click", b, !1)
+                },
+                handleClick: function(a) {
+                    a.preventDefault(), a.stopPropagation(), a.callback = window.clickCallback, window.clickCallback(a)
+                },
+                showLeaderBoard: function() {
+                    e.$overlay.classList.remove("hidden")
+                },
+                hideLeaderBoard: function() {
+                    e.$overlay.classList.add("hidden")
+                },
+                preventInputfromSpan: function(a) {
+                    a.addEventListener("change", function(a) {
+                        a.target.value.length >= 20 && (a.target.value = a.target.value.toString().substr(0, 20))
+                    })
+                }
+            }, this.netFunctions = {
+                sendUserScore: function() {
+                    var a = new XMLHttpRequest;
+                    a.open("post", "https://html5canvasgame.herokuapp.com/post", !0), a.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                    var b = e.gameState.finalScore,
+                        c = e.$nameInput.value;
+                    a.send(JSON.stringify({
+                        username: c,
+                        score: b
+                    })), setTimeout(function() {
+                        e.netFunctions.getUserScore()
+                    }, 500)
+                },
+                getUserScore: function() {
+                    e.$scoreTable.innerHTML = "Loading..", e.gameState.finalScore = e.gameState.score, e.$finalScoreOutput.innerHTML = e.gameState.score;
+                    var a = new XMLHttpRequest;
+                    a.open("GET", "https://html5canvasgame.herokuapp.com/get", !0), a.setRequestHeader("Content-Type", "application/json;charset=UTF-8"), a.onreadystatechange = function() {
+                        if (4 == a.readyState && 200 == a.status) {
+                            e.helpFunctions.showLeaderBoard();
+                            var b = JSON.parse(a.responseText);
+                            b = function() {
+                                return b.sort(function(a, b) {
+                                    var c = a.score,
+                                        d = b.score;
+                                    return c > d ? -1 : c < d ? 1 : 0
+                                })
+                            }(), e.$scoreTable.innerHTML = "";
+                            var c = "<tr><th>Username</th><th>Score</th>",
+                                d = c;
+                            b.forEach(function(a) {
+                                a.username && a.username.toString().length > 40 && (a.username = a.username.toString().slice(0, 35) + "..."), a.score && a.score.toString().length > 40 && (a.score = a.score.toString().slice(0, 35) + "..."), d += "<tr><td>" + a.username + "</td><td>" + a.score + "</td></tr>"
+                            }), e.$scoreTable.innerHTML = d
+                        }
+                    }, a.send()
+                }
+            }
+        }
+        window.addEventListener("load", function() {
+            window.game = new Game, game.helpFunctions.preventInputfromSpan(game.$nameInput),
+                function a() {
+                    game.gameFunctions.clearWindow(), game.gameFunctions.renderSquares(game.gameStorage.squares), requestAnimationFrame ? requestAnimationFrame(a) : webkitRequestAnimationFrame ? webkitRequestAnimationFrame(a) : alert("Your browser does not supports RequestAnimationFrame")
+                }()
+        });
+
+    </script>
+</body>
+
+</html>

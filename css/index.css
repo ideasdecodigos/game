@@ -1,0 +1,29 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box; }
+body{
+ background: url('../imgs/rubik.png') center no-repeat fixed;
+/*    background-position: center;*/
+}
+header {
+  text-align: center;
+  padding: 50px 10px; }
+
+.main {
+  text-align: center; }
+  .main .play {
+      background: rgba(255,255,255,0.8);
+    -webkit-box-shadow: 2px 2px 5px gray;
+    box-shadow: 2px 2px 5px gray;
+    padding: 10px;
+    display: -ms-inline-grid;
+    display: inline-grid;
+    margin: 10px;
+    cursor: pointer; }
+    .main .play img {
+      height: 50px;
+      margin: auto; }
+    .main .play a {
+      text-decoration: none; }

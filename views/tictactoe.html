@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="author" content="Juan C. Paniagua R.">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="shortcut icon" href="../imgs/tic-tac-toe.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../imgs/tic-tac-toe.png" type="image/x-icon">
+    <title>tictactoe</title>
+<!--        <link rel="stylesheet" type="text/css" href="stylesheet.css">-->
+<!--    <link href="https://fonts.googleapis.com/css?family=Montserrat|Orbitron" rel="stylesheet">-->
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../css/tictactoe.css">
+</head>
+
+<body>
+
+<form>
+  <input id="x0-1" name="x0" type="radio" value="1"/>
+  <input id="x0-2" name="x0" type="radio" value="2"/>
+  <input id="x0-3" name="x0" type="radio" value="3"/>
+  <input id="x0-4" name="x0" type="radio" value="4"/>
+  <input id="x0-5" name="x0" type="radio" value="5"/>
+  <input id="x0-6" name="x0" type="radio" value="6"/>
+  <input id="x0-7" name="x0" type="radio" value="7"/>
+  <input id="x0-8" name="x0" type="radio" value="8"/>
+  <input id="x0-9" name="x0" type="radio" value="9"/>
+
+  <input id="x1-1" name="x1" type="radio" value="1"/>
+  <input id="x1-2" name="x1" type="radio" value="2"/>
+  <input id="x1-3" name="x1" type="radio" value="3"/>
+  <input id="x1-4" name="x1" type="radio" value="4"/>
+  <input id="x1-5" name="x1" type="radio" value="5"/>
+  <input id="x1-6" name="x1" type="radio" value="6"/>
+  <input id="x1-7" name="x1" type="radio" value="7"/>
+  <input id="x1-8" name="x1" type="radio" value="8"/>
+  <input id="x1-9" name="x1" type="radio" value="9"/>
+
+  <input id="x2-1" name="x2" type="radio" value="1"/>
+  <input id="x2-2" name="x2" type="radio" value="2"/>
+  <input id="x2-3" name="x2" type="radio" value="3"/>
+  <input id="x2-4" name="x2" type="radio" value="4"/>
+  <input id="x2-5" name="x2" type="radio" value="5"/>
+  <input id="x2-6" name="x2" type="radio" value="6"/>
+  <input id="x2-7" name="x2" type="radio" value="7"/>
+  <input id="x2-8" name="x2" type="radio" value="8"/>
+  <input id="x2-9" name="x2" type="radio" value="9"/>
+
+  <input id="x3-1" name="x3" type="radio" value="1"/>
+  <input id="x3-2" name="x3" type="radio" value="2"/>
+  <input id="x3-3" name="x3" type="radio" value="3"/>
+  <input id="x3-4" name="x3" type="radio" value="4"/>
+  <input id="x3-5" name="x3" type="radio" value="5"/>
+  <input id="x3-6" name="x3" type="radio" value="6"/>
+  <input id="x3-7" name="x3" type="radio" value="7"/>
+  <input id="x3-8" name="x3" type="radio" value="8"/>
+  <input id="x3-9" name="x3" type="radio" value="9"/>
+
+  <input id="x4-1" name="x4" type="radio" value="1"/>
+  <input id="x4-2" name="x4" type="radio" value="2"/>
+  <input id="x4-3" name="x4" type="radio" value="3"/>
+  <input id="x4-4" name="x4" type="radio" value="4"/>
+  <input id="x4-5" name="x4" type="radio" value="5"/>
+  <input id="x4-6" name="x4" type="radio" value="6"/>
+  <input id="x4-7" name="x4" type="radio" value="7"/>
+  <input id="x4-8" name="x4" type="radio" value="8"/>
+  <input id="x4-9" name="x4" type="radio" value="9"/>
+
+  <h1 class="title"> A.I. TIC TAC TOE </h1> <br /> 
+  
+  <div class="board">
+    <div class="cell cell--1">
+      <div class="mark mark--x"></div>
+      <div class="mark mark--o"></div>
+      <label class="label label--0" for="x0-1"></label>
+      <label class="label label--1" for="x1-1"></label>
+      <label class="label label--2" for="x2-1"></label>
+      <label class="label label--3" for="x3-1"></label>
+      <label class="label label--4" for="x4-1"></label>
+    </div>
+    <div class="cell cell--2">
+      <div class="mark mark--x"></div>
+      <div class="mark mark--o"></div>
+      <label class="label label--0" for="x0-2"></label>
+      <label class="label label--1" for="x1-2"></label>
+      <label class="label label--2" for="x2-2"></label>
+      <label class="label label--3" for="x3-2"></label>
+      <label class="label label--4" for="x4-2"></label>
+    </div>
+    <div class="cell cell--3">
+      <div class="mark mark--x"></div>
+      <div class="mark mark--o"></div>
+      <label class="label label--0" for="x0-3"></label>
+      <label class="label label--1" for="x1-3"></label>
+      <label class="label label--2" for="x2-3"></label>
+      <label class="label label--3" for="x3-3"></label>
+      <label class="label label--4" for="x4-3"></label>
+    </div>
+    <div class="cell cell--4">
+      <div class="mark mark--x"></div>
+      <div class="mark mark--o"></div>
+      <label class="label label--0" for="x0-4"></label>
+      <label class="label label--1" for="x1-4"></label>
+      <label class="label label--2" for="x2-4"></label>
+      <label class="label label--3" for="x3-4"></label>
+      <label class="label label--4" for="x4-4"></label>
+    </div>
+    <div class="cell cell--5">
+      <div class="mark mark--x"></div>
+      <div class="mark mark--o"></div>
+      <label class="label label--0" for="x0-5"></label>
+      <label class="label label--1" for="x1-5"></label>
+      <label class="label label--2" for="x2-5"></label>
+      <label class="label label--3" for="x3-5"></label>
+      <label class="label label--4" for="x4-5"></label>
+    </div>
+    <div class="cell cell--6">
+      <div class="mark mark--x"></div>
+      <div class="mark mark--o"></div>
+      <label class="label label--0" for="x0-6"></label>
+      <label class="label label--1" for="x1-6"></label>
+      <label class="label label--2" for="x2-6"></label>
+      <label class="label label--3" for="x3-6"></label>
+      <label class="label label--4" for="x4-6"></label>
+    </div>
+    <div class="cell cell--7">
+      <div class="mark mark--x"></div>
+      <div class="mark mark--o"></div>
+      <label class="label label--0" for="x0-7"></label>
+      <label class="label label--1" for="x1-7"></label>
+      <label class="label label--2" for="x2-7"></label>
+      <label class="label label--3" for="x3-7"></label>
+      <label class="label label--4" for="x4-7"></label>
+    </div>
+    <div class="cell cell--8">
+      <div class="mark mark--x"></div>
+      <div class="mark mark--o"></div>
+      <label class="label label--0" for="x0-8"></label>
+      <label class="label label--1" for="x1-8"></label>
+      <label class="label label--2" for="x2-8"></label>
+      <label class="label label--3" for="x3-8"></label>
+      <label class="label label--4" for="x4-8"></label>
+    </div>
+    <div class="cell cell--9">
+      <div class="mark mark--x"></div>
+      <div class="mark mark--o"></div>
+      <label class="label label--0" for="x0-9"></label>
+      <label class="label label--1" for="x1-9"></label>
+      <label class="label label--2" for="x2-9"></label>
+      <label class="label label--3" for="x3-9"></label>
+      <label class="label label--4" for="x4-9"></label>
+    </div>
+  </div>
+  
+  <div class="endgame">
+    <span id="iawin" class="msg msg--o-win">A.I. won!!.</span>
+    <span id="tiewin" class="msg msg--draw">Tied game!! </span>
+    <button class="endgame-newgame" type="reset">Try again</button>
+  </div>
+  <br>
+  <div class="bar">
+   <hr>
+   <h4>SCORE</h4>
+    <div class="score">
+     <span id="msgia">A.I. = 0</span>
+     <span id="msgtie">Tie = 0</span>
+     <span id="msgyou">You = 0</span>
+      </div>
+      <br>
+       <a href="../index.html" class="Dark">Exit</a>
+    <button class="newgame" type="reset">New game</button>
+  </div>
+</form>
+
+<script> 
+let ia=0;
+let you=0;
+let tie=0;
+    $('.endgame-newgame').click(function(){
+        
+    if($("#iawin").is(":visible")){
+        ia++;
+    }else if($("#tiewin").is(":visible")){
+        tie++;
+    }else{
+     you++;   
+    } 
+        $('#msgia').html("I.A. = "+ia);
+        $('#msgtie').html("Tie = "+tie);
+        $('#msgyou').html("You = "+you);
+        
+    });
+    
+    </script>
+</body>
+
+</html>
